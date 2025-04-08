@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center py-5 mb-5 bg-light rounded shadow-sm">
+    <div class="container">
+        <h1 class="display-4 fw-bold text-primary">Prepare for Your Next Interview</h1>
+        <p class="lead my-4">Practice makes perfect. Our mock interview platform helps you prepare for technical, behavioral, and domain-specific interviews.</p>
+        {% if not session.get('user') %}
+        <div class="buttons-container mt-4">
+            <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg shadow-sm me-2">Get Started</a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg shadow-sm">Sign In</a>
+        </div>
+        {% else %}
+        <div class="buttons-container mt-4">
+            <a href="{{ url_for('configure_interview') }}" class="btn btn-primary btn-lg shadow-sm">Start an Interview</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm hover-card">
+            <div class="card-body text-center py-4">
+                <i class="bi bi-code-square text-primary feature-icon mb-3"></i>
+                <h3 class="card-title">Technical Interviews</h3>
+                <p class="card-text">Practice coding, algorithms, system design and other technical topics for engineering roles.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm hover-card">
+            <div class="card-body text-center py-4">
+                <i class="bi bi-people text-primary feature-icon mb-3"></i>
+                <h3 class="card-title">Behavioral Interviews</h3>
+                <p class="card-text">Master common HR questions and behavioral scenarios that assess your soft skills.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm hover-card">
+            <div class="card-body text-center py-4">
+                <i class="bi bi-briefcase text-primary feature-icon mb-3"></i>
+                <h3 class="card-title">Domain Interviews</h3>
+                <p class="card-text">Prepare for industry-specific questions in finance, marketing, healthcare, and more.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="how-it-works my-5 py-5 bg-light rounded shadow-sm">
+    <div class="container">
+        <h2 class="text-center text-primary mb-5">How It Works</h2>
+        <div class="row">
+            <div class="col-md-3 mb-4 mb-md-0">
+                <div class="step-container text-center">
+                    <div class="step-number">1</div>
+                    <h4 class="mt-3">Create Profile</h4>
+                    <p>Sign up and complete your professional profile with your skills and preferences.</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4 mb-md-0">
+                <div class="step-container text-center">
+                    <div class="step-number">2</div>
+                    <h4 class="mt-3">Configure Interview</h4>
+                    <p>Select your target job role, interview type, difficulty level, and duration.</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4 mb-md-0">
+                <div class="step-container text-center">
+                    <div class="step-number">3</div>
+                    <h4 class="mt-3">Practice Interview</h4>
+                    <p>Answer questions within the time limit, just like in a real interview setting.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="step-container text-center">
+                    <div class="step-number">4</div>
+                    <h4 class="mt-3">Get Feedback</h4>
+                    <p>Receive detailed feedback and tips to improve your interview performance.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="testimonials my-5">
+    <h2 class="text-center text-primary mb-4">Success Stories</h2>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card testimonial-card shadow-sm">
+                <div class="card-body">
+                    <div class="testimonial-quote"><i class="bi bi-quote"></i></div>
+                    <p class="testimonial-text">"This platform helped me prepare for my software engineering interviews. I landed a job at my dream tech company!"</p>
+                    <div class="testimonial-author">
+                        <div class="avatar-placeholder">JS</div>
+                        <div>
+                            <h5 class="mb-0">John Smith</h5>
+                            <p class="text-muted mb-0">Software Engineer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card testimonial-card shadow-sm">
+                <div class="card-body">
+                    <div class="testimonial-quote"><i class="bi bi-quote"></i></div>
+                    <p class="testimonial-text">"The behavioral questions were spot on! I felt completely prepared when similar questions came up in my actual interview."</p>
+                    <div class="testimonial-author">
+                        <div class="avatar-placeholder">SD</div>
+                        <div>
+                            <h5 class="mb-0">Sarah Davis</h5>
+                            <p class="text-muted mb-0">Product Manager</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card testimonial-card shadow-sm">
+                <div class="card-body">
+                    <div class="testimonial-quote"><i class="bi bi-quote"></i></div>
+                    <p class="testimonial-text">"As a career changer, I was nervous about technical interviews. This platform gave me the confidence I needed."</p>
+                    <div class="testimonial-author">
+                        <div class="avatar-placeholder">MK</div>
+                        <div>
+                            <h5 class="mb-0">Michael Kim</h5>
+                            <p class="text-muted mb-0">Data Scientist</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cta-section text-center py-5 my-5 bg-primary text-white rounded shadow">
+    <h2 class="mb-4">Ready to Ace Your Next Interview?</h2>
+    <p class="lead mb-4">Join thousands of professionals who have improved their interview skills with our platform.</p>
+    {% if not session.get('user') %}
+    <a href="{{ url_for('register') }}" class="btn btn-light btn-lg">Get Started Now</a>
+    {% else %}
+    <a href="{{ url_for('configure_interview') }}" class="btn btn-light btn-lg">Start an Interview</a>
+    {% endif %}
+</div>
+{% endblock %}

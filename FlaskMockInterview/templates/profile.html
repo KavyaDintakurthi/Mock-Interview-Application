@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-body text-center py-5">
+                <div class="profile-image mb-3">
+                    <i class="bi bi-person-circle display-1 text-primary"></i>
+                </div>
+                <h3 class="card-title">{{ user.get('name', 'User') }}</h3>
+                <p class="text-muted">{{ user.get('email', '') }}</p>
+                <hr>
+                <div class="d-grid">
+                    <a href="{{ url_for('configure_interview') }}" class="btn btn-primary shadow-sm">Start New Interview</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h3 class="text-primary mb-4">Profile Information</h3>
+                <form method="post" action="{{ url_for('profile') }}">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ user.get('name', '') }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email (cannot be changed)</label>
+                        <input type="email" class="form-control" id="email" value="{{ user.get('email', '') }}" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="resume" class="form-label">Professional Summary</label>
+                        <textarea class="form-control" id="resume" name="resume" rows="4">{{ user.get('resume', '') }}</textarea>
+                        <div class="form-text">A brief description of your professional background and goals.</div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="skills" class="form-label">Skills (comma-separated)</label>
+                        <input type="text" class="form-control" id="skills" name="skills" value="{{ ','.join(user.get('skills', [])) }}">
+                        <div class="form-text">E.g., Python, JavaScript, Project Management, Data Analysis</div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary shadow-sm">Update Profile</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4 shadow-sm">
+    <div class="card-body p-4">
+        <h3 class="text-primary mb-4">Recent Interviews</h3>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Job Role</th>
+                        <th>Interview Type</th>
+                        <th>Difficulty</th>
+                        <th>Score</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if session.get('last_result_id') %}
+                    <tr>
+                        <td>Today</td>
+                        <td>{{ session.get('interview_config', {}).get('job_role', 'N/A') }}</td>
+                        <td>{{ session.get('interview_config', {}).get('interview_type', 'N/A') }}</td>
+                        <td>{{ session.get('interview_config', {}).get('difficulty', 'N/A') }}</td>
+                        <td>
+                            <div class="progress" style="height: 20px;">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('results') }}" class="btn btn-sm btn-outline-primary">View Results</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center">No interview history found. <a href="{{ url_for('configure_interview') }}" class="text-primary">Start your first interview!</a></td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}Interview in Progress{% endblock %}
+
+{% block extra_head %}
+<meta name="interview-duration" content="{{ config.duration }}">
+{% endblock %}
+
+{% block content %}
+<div class="interview-container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">{{ config.job_role }} - {{ config.interview_type|title }} Interview</h3>
+                    <div class="timer-container">
+                        <i class="bi bi-clock me-1"></i>
+                        <span id="timer">{{ config.duration }}:00</span>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div class="progress mb-4">
+                        <div class="progress-bar bg-primary" id="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    
+                    <form id="interview-form" method="post" action="{{ url_for('submit_interview') }}">
+                        <div id="questions-container">
+                            {% for question in questions %}
+                            <div class="question-card mb-4 {% if not loop.first %}d-none{% endif %}" data-question-index="{{ loop.index0 }}">
+                                <h4 class="text-primary mb-3">Question {{ loop.index }} of {{ questions|length }}</h4>
+                                <div class="question-text mb-3">
+                                    <p class="fs-5">{{ question }}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="answer_{{ loop.index0 }}" class="form-label">Your Answer:</label>
+                                    <textarea class="form-control answer-textarea" id="answer_{{ loop.index0 }}" name="answer_{{ loop.index0 }}" rows="6" placeholder="Type your answer here..."></textarea>
+                                </div>
+                                <div class="d-flex justify-content-between mt-3">
+                                    {% if not loop.first %}
+                                    <button type="button" class="btn btn-outline-secondary prev-question-btn" data-prev-index="{{ loop.index0 - 1 }}">
+                                        <i class="bi bi-arrow-left me-1"></i> Previous
+                                    </button>
+                                    {% else %}
+                                    <div></div> <!-- Empty div for spacing -->
+                                    {% endif %}
+                                    
+                                    {% if not loop.last %}
+                                    <button type="button" class="btn btn-primary next-question-btn" data-next-index="{{ loop.index0 + 1 }}">
+                                        Next <i class="bi bi-arrow-right ms-1"></i>
+                                    </button>
+                                    {% else %}
+                                    <button type="submit" class="btn btn-success" id="submit-interview-btn">
+                                        <i class="bi bi-check-circle me-1"></i> Finish Interview
+                                    </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Interview Information</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-briefcase me-2"></i> Job Role:</span>
+                            <span class="badge bg-primary rounded-pill">{{ config.job_role }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-card-list me-2"></i> Interview Type:</span>
+                            <span class="badge bg-primary rounded-pill">{{ config.interview_type|title }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-bar-chart me-2"></i> Difficulty:</span>
+                            <span class="badge bg-{{ {'easy': 'success', 'medium': 'warning', 'hard': 'danger'}[config.difficulty] }} rounded-pill">{{ config.difficulty|title }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-clock me-2"></i> Duration:</span>
+                            <span class="badge bg-primary rounded-pill">{{ config.duration }} minutes</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Interview Tips</h5>
+                </div>
+                <div class="card-body">
+                    <div class="interview-tips">
+                        <p><i class="bi bi-lightbulb me-2 text-warning"></i> Be concise and specific in your answers.</p>
+                        <p><i class="bi bi-lightbulb me-2 text-warning"></i> Use the STAR method (Situation, Task, Action, Result) for behavioral questions.</p>
+                        <p><i class="bi bi-lightbulb me-2 text-warning"></i> If it's a technical question, explain your thought process.</p>
+                        <p><i class="bi bi-lightbulb me-2 text-warning"></i> Manage your time wisely - don't spend too long on any one question.</p>
+                        <p><i class="bi bi-lightbulb me-2 text-warning"></i> Take a deep breath if you feel stressed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="timeWarningModal" tabindex="-1" aria-labelledby="timeWarningModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="timeWarningModalLabel">Time Warning</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><i class="bi bi-exclamation-triangle-fill me-2"></i> You have 5 minutes remaining in your interview!</p>
+                <p>Please make sure to complete all questions before time runs out.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Continue Interview</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="timeUpModal" tabindex="-1" aria-labelledby="timeUpModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="timeUpModalLabel">Time's Up!</h5>
+            </div>
+            <div class="modal-body">
+                <p><i class="bi bi-alarm-fill me-2"></i> Your interview time has ended.</p>
+                <p>We'll submit your answers as they currently stand.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="submit-on-timeout">Submit Interview</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/interview.js') }}"></script>
+{% endblock %}

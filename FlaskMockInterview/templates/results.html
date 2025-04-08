@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}Interview Results{% endblock %}
+
+{% block content %}
+<div class="results-container">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Interview Results</h3>
+                </div>
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <div class="results-score">
+                            <div class="score-circle position-relative">
+                                <svg width="150" height="150" viewBox="0 0 150 150">
+                                    <circle cx="75" cy="75" r="65" fill="none" stroke="#e6e6e6" stroke-width="10" />
+                                    <circle cx="75" cy="75" r="65" fill="none" stroke="#0d6efd" stroke-width="10" 
+                                            stroke-dasharray="408" stroke-dashoffset="{{ 408 - (408 * result.score / 100) }}" 
+                                            transform="rotate(-90 75 75)" />
+                                </svg>
+                                <div class="score-text">
+                                    <h2 class="fw-bold mb-0">{{ "%.1f"|format(result.score) }}%</h2>
+                                    <p class="text-muted mb-0">Score</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            {% if result.score >= 80 %}
+                            <div class="alert alert-success">
+                                <i class="bi bi-trophy-fill me-2"></i> Excellent job! You're well-prepared for real interviews.
+                            </div>
+                            {% elif result.score >= 60 %}
+                            <div class="alert alert-info">
+                                <i class="bi bi-hand-thumbs-up-fill me-2"></i> Good work! With a bit more practice, you'll be ready.
+                            </div>
+                            {% else %}
+                            <div class="alert alert-warning">
+                                <i class="bi bi-lightbulb-fill me-2"></i> Keep practicing! Review the feedback below to improve.
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <h4 class="text-primary mb-3">Interview Details</h4>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><i class="bi bi-briefcase me-2"></i> Job Role:</span>
+                                    <span class="fw-bold">{{ result.config.job_role }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><i class="bi bi-card-list me-2"></i> Interview Type:</span>
+                                    <span class="fw-bold">{{ result.config.interview_type|title }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><i class="bi bi-bar-chart me-2"></i> Difficulty:</span>
+                                    <span class="fw-bold">{{ result.config.difficulty|title }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><i class="bi bi-clock me-2"></i> Duration:</span>
+                                    <span class="fw-bold">{{ result.config.duration }} minutes</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4 class="text-primary mb-3">Question-by-Question Feedback</h4>
+                    <div class="accordion" id="accordionResults">
+                        {% for i in range(result.questions|length) %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading{{ i }}">
+                                <button class="accordion-button {% if i != 0 %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ i }}" aria-expanded="{{ 'true' if i == 0 else 'false' }}" aria-controls="collapse{{ i }}">
+                                    <div class="d-flex justify-content-between w-100 me-3">
+                                        <span>Question {{ i + 1 }}</span>
+                                        <span class="badge bg-{{ 'success' if result.feedback[result.questions[i]].score >= 70 else ('warning' if result.feedback[result.questions[i]].score >= 50 else 'danger') }}">
+                                            {{ result.feedback[result.questions[i]].score }}%
+                                        </span>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div id="collapse{{ i }}" class="accordion-collapse collapse {% if i == 0 %}show{% endif %}" aria-labelledby="heading{{ i }}" data-bs-parent="#accordionResults">
+                                <div class="accordion-body">
+                                    <div class="mb-3">
+                                        <h5>Question:</h5>
+                                        <p>{{ result.questions[i] }}</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h5>Your Answer:</h5>
+                                        <p>{{ result.answers[result.questions[i]] }}</p>
+                                    </div>
+                                    <div class="feedback-box p-3 rounded {{ 'bg-success bg-opacity-10' if result.feedback[result.questions[i]].score >= 70 else ('bg-warning bg-opacity-10' if result.feedback[result.questions[i]].score >= 50 else 'bg-danger bg-opacity-10') }}">
+                                        <h5>Feedback:</h5>
+                                        <p>{{ result.feedback[result.questions[i]].feedback }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Performance Summary</h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="mb-3">Strengths</h6>
+                    <ul class="list-group mb-4">
+                        {% if result.score >= 70 %}
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Clear and concise communication</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Good technical knowledge</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Structured approach to answers</li>
+                        {% elif result.score >= 50 %}
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Some good technical knowledge</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Adequate communication skills</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Basic understanding of concepts</li>
+                        {% else %}
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Attempted all questions</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Shows willingness to learn</li>
+                        {% endif %}
+                    </ul>
+                    
+                    <h6 class="mb-3">Areas for Improvement</h6>
+                    <ul class="list-group mb-4">
+                        {% if result.score >= 70 %}
+                        <li class="list-group-item"><i class="bi bi-exclamation-circle-fill text-warning me-2"></i> Provide more specific examples</li>
+                        <li class="list-group-item"><i class="bi bi-exclamation-circle-fill text-warning me-2"></i> Elaborate on complex topics</li>
+                        {% elif result.score >= 50 %}
+                        <li class="list-group-item"><i class="bi bi-exclamation-circle-fill text-warning me-2"></i> Improve technical depth</li>
+                        <li class="list-group-item"><i class="bi bi-exclamation-circle-fill text-warning me-2"></i> Provide more specific examples</li>
+                        <li class="list-group-item"><i class="bi bi-exclamation-circle-fill text-warning me-2"></i> Structure answers better</li>
+                        {% else %}
+                        <li class="list-group-item"><i class="bi bi-exclamation-circle-fill text-warning me-2"></i> Strengthen technical knowledge</li>
+                        <li class="list-group-item"><i class="bi bi-exclamation-circle-fill text-warning me-2"></i> Improve answer depth and clarity</li>
+                        <li class="list-group-item"><i class="bi bi-exclamation-circle-fill text-warning me-2"></i> Practice structured responses</li>
+                        <li class="list-group-item"><i class="bi bi-exclamation-circle-fill text-warning me-2"></i> Use specific examples</li>
+                        {% endif %}
+                    </ul>
+                    
+                    <div class="next-steps d-grid gap-2">
+                        <a href="{{ url_for('configure_interview') }}" class="btn btn-primary">
+                            <i class="bi bi-arrow-repeat me-1"></i> Start Another Interview
+                        </a>
+                        <a href="{{ url_for('profile') }}" class="btn btn-outline-primary">
+                            <i class="bi bi-person me-1"></i> Back to Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

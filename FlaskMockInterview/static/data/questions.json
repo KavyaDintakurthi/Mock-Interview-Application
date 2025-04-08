@@ -1,0 +1,146 @@
+{
+  "technical": {
+    "Software Engineer": {
+      "easy": [
+        "What is the difference between a stack and a queue?",
+        "Explain the concept of object-oriented programming.",
+        "What is the difference between an array and a linked list?",
+        "What is the time complexity of binary search?",
+        "Explain the concept of recursion with an example."
+      ],
+      "medium": [
+        "What is a hash table collision and how can it be resolved?",
+        "Explain the difference between process and thread.",
+        "What is a deadlock in operating systems? How do you prevent it?",
+        "Explain the concept of database normalization.",
+        "What are design patterns? Give examples of commonly used patterns."
+      ],
+      "hard": [
+        "Explain the CAP theorem and its implications for distributed systems.",
+        "How would you design a distributed cache system?",
+        "Explain how consensus algorithms like Paxos or Raft work.",
+        "Describe how you would implement a distributed transaction system.",
+        "What are the trade-offs between different types of NoSQL databases?"
+      ]
+    },
+    "Data Scientist": {
+      "easy": [
+        "What is the difference between supervised and unsupervised learning?",
+        "Explain the concept of overfitting in machine learning.",
+        "What is the purpose of cross-validation?",
+        "Explain the difference between classification and regression.",
+        "What is feature scaling and why is it important?"
+      ],
+      "medium": [
+        "Explain how gradient descent works.",
+        "What is the bias-variance tradeoff?",
+        "How do you handle imbalanced datasets?",
+        "Explain the concept of regularization in machine learning.",
+        "What is the difference between bagging and boosting?"
+      ],
+      "hard": [
+        "How would you implement a recommendation system from scratch?",
+        "Explain how transformers work in natural language processing.",
+        "What are the mathematical foundations of reinforcement learning?",
+        "How would you design a fraud detection system?",
+        "Explain how you would implement a real-time data pipeline for machine learning."
+      ]
+    },
+    "Frontend Developer": {
+      "easy": [
+        "What is the difference between HTML and HTML5?",
+        "Explain the box model in CSS.",
+        "What is the difference between let, const, and var in JavaScript?",
+        "What is responsive design?",
+        "What are semantic HTML tags and why are they important?"
+      ],
+      "medium": [
+        "Explain how event delegation works in JavaScript.",
+        "What are closures in JavaScript?",
+        "How does virtual DOM work?",
+        "Explain the concept of CSS preprocessing.",
+        "What are accessibility considerations for web development?"
+      ],
+      "hard": [
+        "Explain how JavaScript prototypal inheritance works.",
+        "How would you optimize a web application for performance?",
+        "What are the principles of state management in modern web applications?",
+        "How would you implement server-side rendering?",
+        "Explain the concept of progressive web applications."
+      ]
+    }
+  },
+  "behavioral": {
+    "General": {
+      "easy": [
+        "Tell me about yourself.",
+        "What are your strengths and weaknesses?",
+        "Why do you want to work for this company?",
+        "Where do you see yourself in five years?",
+        "Describe a time when you faced a challenge at work."
+      ],
+      "medium": [
+        "Describe a conflict you faced at work and how you resolved it.",
+        "Tell me about a time when you failed and what you learned from it.",
+        "How do you handle stress and pressure?",
+        "Describe a time when you had to work with a difficult team member.",
+        "Tell me about a time when you showed leadership."
+      ],
+      "hard": [
+        "Describe a time when you had to make an unpopular decision.",
+        "Tell me about a time when you had to adapt to significant changes at work.",
+        "Describe a situation where you had to influence someone's opinion without direct authority.",
+        "Tell me about a time when you had to deliver results under tight deadlines.",
+        "Describe a time when you had to make a decision with incomplete information."
+      ]
+    }
+  },
+  "domain": {
+    "Finance": {
+      "easy": [
+        "What is the difference between accounts payable and accounts receivable?",
+        "Explain the time value of money concept.",
+        "What are the main financial statements?",
+        "What is the difference between FIFO and LIFO inventory methods?",
+        "Explain what a balance sheet shows."
+      ],
+      "medium": [
+        "How would you evaluate a potential investment opportunity?",
+        "What metrics would you use to assess a company's financial health?",
+        "Explain how you would conduct a financial forecasting process.",
+        "What is working capital management and why is it important?",
+        "How does inflation impact financial planning?"
+      ],
+      "hard": [
+        "Explain the Capital Asset Pricing Model.",
+        "How would you value a company using DCF analysis?",
+        "What are the implications of Basel III for banking institutions?",
+        "How would you hedge against currency risk in international operations?",
+        "Explain how derivatives can be used in risk management."
+      ]
+    },
+    "Marketing": {
+      "easy": [
+        "What is the difference between B2B and B2C marketing?",
+        "Explain the concept of the marketing funnel.",
+        "What are the 4Ps of marketing?",
+        "What is market segmentation?",
+        "Explain the difference between marketing and advertising."
+      ],
+      "medium": [
+        "How would you measure the ROI of a marketing campaign?",
+        "What strategies would you use to increase customer retention?",
+        "How would you develop a social media marketing strategy?",
+        "What is content marketing and why is it important?",
+        "How would you conduct market research for a new product?"
+      ],
+      "hard": [
+        "How would you develop a global marketing strategy for a product?",
+        "What approaches would you take to market a product in a saturated market?",
+        "How would you build a brand strategy from scratch?",
+        "Explain how you would use data analytics to optimize marketing campaigns.",
+        "How would you handle a PR crisis for a brand?"
+      ]
+    }
+  }
+}

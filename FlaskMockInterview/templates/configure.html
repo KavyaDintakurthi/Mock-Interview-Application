@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}Configure Interview{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <h2 class="text-primary text-center mb-4">Configure Your Interview</h2>
+                <form method="post" action="{{ url_for('configure_interview') }}">
+                    <div class="mb-3">
+                        <label for="job_role" class="form-label">Job Role</label>
+                        <select class="form-select" id="job_role" name="job_role" required>
+                            <option value="" selected disabled>Select a job role</option>
+                            {% for job in jobs %}
+                            <option value="{{ job }}">{{ job }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Interview Type</label>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card hover-card mb-3 interview-type-card" data-type="technical">
+                                    <div class="card-body text-center py-3">
+                                        <i class="bi bi-code-slash text-primary display-6 mb-2"></i>
+                                        <h5>Technical</h5>
+                                        <p class="small text-muted mb-0">Coding, algorithms, system design</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card hover-card mb-3 interview-type-card" data-type="behavioral">
+                                    <div class="card-body text-center py-3">
+                                        <i class="bi bi-people text-primary display-6 mb-2"></i>
+                                        <h5>Behavioral</h5>
+                                        <p class="small text-muted mb-0">Soft skills, HR-style questions</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card hover-card mb-3 interview-type-card" data-type="domain">
+                                    <div class="card-body text-center py-3">
+                                        <i class="bi bi-briefcase text-primary display-6 mb-2"></i>
+                                        <h5>Domain</h5>
+                                        <p class="small text-muted mb-0">Industry-specific knowledge</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="interview_type" name="interview_type" value="" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Difficulty Level</label>
+                        <div class="difficulty-slider-container">
+                            <input type="range" class="form-range" id="difficulty_slider" min="1" max="3" step="1" value="2">
+                            <div class="difficulty-labels d-flex justify-content-between">
+                                <span>Easy</span>
+                                <span>Medium</span>
+                                <span>Hard</span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="difficulty" name="difficulty" value="medium" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="duration" class="form-label">Duration (minutes)</label>
+                        <select class="form-select" id="duration" name="duration" required>
+                            <option value="15">15 minutes</option>
+                            <option value="30" selected>30 minutes</option>
+                            <option value="45">45 minutes</option>
+                            <option value="60">60 minutes</option>
+                        </select>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="d-flex">
+                            <i class="bi bi-info-circle-fill me-2 fs-5"></i>
+                            <div>
+                                <strong>Tips:</strong> Make sure you're in a quiet environment with no distractions. Have a notepad ready for technical questions. Treat this like a real interview!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg shadow-sm">Start Interview</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Interview type selection
+        const typeCards = document.querySelectorAll('.interview-type-card');
+        const typeInput = document.getElementById('interview_type');
+        
+        typeCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove active class from all cards
+                typeCards.forEach(c => c.classList.remove('active-card'));
+                // Add active class to clicked card
+                this.classList.add('active-card');
+                // Set the value in the hidden input
+                typeInput.value = this.getAttribute('data-type');
+            });
+        });
+        
+        // Difficulty slider
+        const difficultySlider = document.getElementById('difficulty_slider');
+        const difficultyInput = document.getElementById('difficulty');
+        
+        difficultySlider.addEventListener('input', function() {
+            const value = this.value;
+            if (value == 1) {
+                difficultyInput.value = 'easy';
+            } else if (value == 2) {
+                difficultyInput.value = 'medium';
+            } else {
+                difficultyInput.value = 'hard';
+            }
+        });
+    });
+</script>
+{% endblock %}
